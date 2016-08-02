@@ -35,24 +35,25 @@ namespace STDump
             }
             catch (ClrDiagnosticsException ex)
             {
-                Console.Error.WriteLine(ex.Message);
-                Console.Error.WriteLine("Try elevating the command prompt.");
+                Console.WriteLine(ex.Message);
+                // TODO: Add bitness information
+                Console.WriteLine("Try elevating the command prompt.");
 
                 return (int) ExitCode.DiagnosticFailed;
             }
             catch (FileNotFoundException ex)
             {
-                Console.Error.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
                 return (int) ExitCode.TargetNotFound;
             }
             catch (ProcessNotFoundException ex)
             {
-                Console.Error.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);
                 return (int) ExitCode.TargetNotFound;
             }
             catch (OperationCanceledException)
             {
-                Console.Error.WriteLine("The operation was canceled by the user.");
+                Console.WriteLine("The operation was canceled by the user.");
                 return (int) ExitCode.Canceled;
             }
 
@@ -61,17 +62,17 @@ namespace STDump
 
         private static void WriteUsage()
         {
-            Console.Out.WriteLine("USAGE: stdump.exe process|pid|minidump");
+            Console.WriteLine("USAGE: stdump.exe process|pid|minidump");
         }
 
         private static void WriteHeader()
         {
-            Console.Out.WriteLine("STDump v0.1 - Writes process managed stack traces");
-            Console.Out.WriteLine("Copyright (C) 2016 Sergey Odinokov");
-            Console.Out.WriteLine("Based on Microsoft.Diagnostics.Runtime (CLR MD). Copyright (C) Microsoft Corporation.");
-            Console.Out.WriteLine();
-            Console.Out.WriteLine("Dumps managed stack trace of a running process, or from a minidump file.");
-            Console.Out.WriteLine();
+            Console.WriteLine("STDump v0.1 - Writes process managed stack traces");
+            Console.WriteLine("Copyright (C) 2016 Sergey Odinokov");
+            Console.WriteLine("Based on Microsoft.Diagnostics.Runtime (CLR MD). Copyright (C) Microsoft Corporation.");
+            Console.WriteLine();
+            Console.WriteLine("Dumps managed stack trace of a running process, or from a minidump file.");
+            Console.WriteLine();
         }
         
         private static void SubscribeCancelKeyPress()
