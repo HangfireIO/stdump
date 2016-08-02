@@ -71,7 +71,7 @@ namespace STDump
             Console.WriteLine("Copyright (C) 2016 Sergey Odinokov");
             Console.WriteLine("Based on Microsoft.Diagnostics.Runtime (CLR MD). Copyright (C) Microsoft Corporation.");
             Console.WriteLine();
-            Console.WriteLine("Dumps managed stack trace of a running process, or from a minidump file.");
+            Console.WriteLine("Writes managed stack trace of a running process, or from a minidump file to console.");
             Console.WriteLine();
         }
         
