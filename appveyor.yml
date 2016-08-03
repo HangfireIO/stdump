@@ -6,18 +6,11 @@
 #   - All section names are case-sensitive.
 #   - Section names should be unique on each level.
 
-version: build-{build}
+version: 0.0.1-build-0{build}
 
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
-
-# branches to build
-branches:
-  # whitelist
-  only:
-    - master
-    - dev
 
 pull_requests:
   do_not_increment_build_number: true
@@ -29,7 +22,7 @@ shallow_clone: true
 #---------------------------------#
 
 # to run your custom scripts instead of automatic MSBuild
-build_script: ./build.ps1
+build_script: build.bat
 
 #---------------------------------#
 #       tests configuration       #
@@ -42,7 +35,8 @@ test: off
 #---------------------------------#
 
 artifacts:
-  - path: 'artifacts\*'
+  - path: 'build\**\*.nupkg'
+  - path: 'build\**\*.zip'
 
 #---------------------------------#
 #      deployment configuration   #

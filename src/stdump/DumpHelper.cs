@@ -67,6 +67,18 @@ namespace STDump
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
+                if (Environment.Is64BitProcess && clrVersion.DacInfo.TargetArchitecture == Architecture.X86)
+                {
+                    Console.WriteLine("Use stdump-x86.exe");
+                    Environment.Exit(-2);
+                }
+
+                if (!Environment.Is64BitProcess && clrVersion.DacInfo.TargetArchitecture == Architecture.Amd64)
+                {
+                    Console.WriteLine("Use stdump.exe instead.");
+                    Environment.Exit(-2);
+                }
+
                 writer.WriteLine($"Found CLR {clrVersion.Version}");
                 writer.WriteLine();
 

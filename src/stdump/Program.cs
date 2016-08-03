@@ -35,25 +35,24 @@ namespace STDump
             }
             catch (ClrDiagnosticsException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error: " + ex.Message + " Try elevating the command prompt.");
                 // TODO: Add bitness information
-                Console.WriteLine("Try elevating the command prompt.");
 
                 return (int) ExitCode.DiagnosticFailed;
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
                 return (int) ExitCode.TargetNotFound;
             }
             catch (ProcessNotFoundException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
                 return (int) ExitCode.TargetNotFound;
             }
             catch (OperationCanceledException)
             {
-                Console.WriteLine("The operation was canceled by the user.");
+                Console.WriteLine("Error: The operation was canceled by the user.");
                 return (int) ExitCode.Canceled;
             }
 
