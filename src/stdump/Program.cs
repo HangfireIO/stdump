@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Microsoft.Diagnostics.Runtime;
+using Microsoft.Extensions.CommandLineUtils;
 
 namespace STDump
 {
@@ -15,65 +19,107 @@ namespace STDump
         public static int Main(string[] args)
         {
             SubscribeCancelKeyPress();
-            WriteHeader();
 
-            if (args.Length != 1 || 
-                args[0].Equals("/?", StringComparison.OrdinalIgnoreCase) || 
-                args[0].Equals("-h", StringComparison.OrdinalIgnoreCase) ||
-                args[0].Equals("--help", StringComparison.OrdinalIgnoreCase))
+            var app = new CommandLineApplication(false)
             {
-                WriteUsage();
-                return (int)ExitCode.UsageRequested;
-            }
+                Name = "stdump",
+                FullName = "Stack Trace Dump",
+                Description = "Writes managed stack trace of a running process, or from a minidump file to console."
+            };
 
+            var versions = GetShortAndLongVersion();
+
+            app.Option("-p|--pause", "Pause process", CommandOptionType.NoValue);
+            app.Option("-o|--output", "Specify a file", CommandOptionType.SingleValue);
+            app.HelpOption("-h|--help");
+            app.VersionOption("-v|--version", versions.Item1, versions.Item2);
+
+            var arg = app.Argument("<process> or <dump>", "Process ID, process name or a dump file", true);
+            
+            app.OnExecute(() =>
+            {
+                if (arg.Values.Count == 0)
+                {
+                    app.ShowHelp();
+                    return 1;
+                }
+
+                app.ShowRootCommandFullNameAndVersion();
+                
+                return DumpStackTraces(arg.Values);
+            });
+
+            return app.Execute(args);
+        }
+
+        private static int DumpStackTraces(IEnumerable<string> arguments)
+        {
             try
             {
-                using (var target = DumpHelper.LoadOrAttach(args[0], AttachProcessFlag, AttachProcessTimeout))
+                foreach (var argument in arguments)
                 {
-                    DumpHelper.WriteDump(target, Console.Out, Cts.Token);
+                    Cts.Token.ThrowIfCancellationRequested();
+
+                    using (var writer = new StringWriter())
+                    {
+                        using (var target = DumpHelper.LoadOrAttach(argument, AttachProcessFlag, AttachProcessTimeout))
+                        {
+                            DumpHelper.WriteDump(target, writer, Cts.Token);
+                        }
+
+                        Console.Out.Write(writer);
+                    }
                 }
+
+                return 0;
             }
             catch (ClrDiagnosticsException ex)
             {
                 Console.WriteLine("Error: " + ex.Message + " Try elevating the command prompt.");
                 // TODO: Add bitness information
 
-                return (int) ExitCode.DiagnosticFailed;
+                return (int)ExitCode.DiagnosticFailed;
             }
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                return (int) ExitCode.TargetNotFound;
+                return (int)ExitCode.TargetNotFound;
             }
             catch (ProcessNotFoundException ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
-                return (int) ExitCode.TargetNotFound;
+                return (int)ExitCode.TargetNotFound;
             }
             catch (OperationCanceledException)
             {
                 Console.WriteLine("Error: The operation was canceled by the user.");
-                return (int) ExitCode.Canceled;
+                return (int)ExitCode.Canceled;
             }
-
-            return (int)ExitCode.Success;
         }
 
-        private static void WriteUsage()
+        private static Tuple<string, string> GetShortAndLongVersion()
         {
-            Console.WriteLine("USAGE: stdump.exe process|pid|minidump");
+            Func<TypeInfo, string> getVersionFromTypeInfo = typeInfo =>
+            {
+                var infoVersion = typeInfo.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion
+                    ?? typeInfo.Assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
+
+                if (string.IsNullOrEmpty(infoVersion))
+                {
+                    infoVersion = typeInfo.Assembly.GetName().Version.ToString();
+                }
+
+                return infoVersion;
+            };
+
+            var programVersion = getVersionFromTypeInfo(typeof(Program).GetTypeInfo());
+            var clrMdVersion = getVersionFromTypeInfo(typeof(DataTarget).GetTypeInfo());
+
+            return new Tuple<string, string>(
+                programVersion,
+                $"{programVersion} (ClrMD: {clrMdVersion})");
         }
 
-        private static void WriteHeader()
-        {
-            Console.WriteLine("STDump v0.1 - Writes process managed stack traces");
-            Console.WriteLine("Copyright (C) 2016 Sergey Odinokov");
-            Console.WriteLine("Based on Microsoft.Diagnostics.Runtime (CLR MD). Copyright (C) Microsoft Corporation.");
-            Console.WriteLine();
-            Console.WriteLine("Writes managed stack trace of a running process, or from a minidump file to console.");
-            Console.WriteLine();
-        }
-        
         private static void SubscribeCancelKeyPress()
         {
             Console.CancelKeyPress += (sender, args) =>
