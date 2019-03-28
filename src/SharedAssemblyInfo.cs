@@ -12,3 +12,4 @@ using System.Runtime.InteropServices;
 
 // Don't edit manually! Use `build.bat version` command instead!
 [assembly: AssemblyVersion("0.0.2")]
+[assembly: AssemblyInformationalVersion("0.0.2")]

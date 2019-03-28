@@ -101,7 +101,7 @@ namespace STDump
         {
             Func<TypeInfo, string> getVersionFromTypeInfo = typeInfo =>
             {
-                var infoVersion = typeInfo.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion
+                var infoVersion = typeInfo.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
                     ?? typeInfo.Assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
 
                 if (string.IsNullOrEmpty(infoVersion))
