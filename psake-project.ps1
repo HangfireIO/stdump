@@ -1,5 +1,5 @@
 Framework 4.5.1
-Include "packages\Hangfire.Build.0.2.5\tools\psake-common.ps1"
+Include "packages\Hangfire.Build.0.2.6\tools\psake-common.ps1"
 
 Properties {
     $solution = "stdump.sln"
@@ -7,22 +7,26 @@ Properties {
 
 Task Default -Depends Pack
 
-Task CompileAll -Depends Clean, Restore -Description "Compile all the projects in a solution." {
-    Run-MSBuild "x86"
-    Run-MSBuild "x64"
+Task CleanCore {
+    Exec { dotnet clean /v:minimal }
 }
 
-Task Merge -Depends CompileAll -Description "Run ILMerge /internalize to merge assemblies." {
-    Run-ILMerge @("stdump", "x86") @("Microsoft.Diagnostics.Runtime")
-    Run-ILMerge @("stdump", "x64") @("Microsoft.Diagnostics.Runtime")
+Task CompileCore -Depends CleanCore, Restore -Description "Compile all the projects in a solution." {
+    Exec { dotnet publish -f net451 -r win7-x86 -c Release }
+    Exec { dotnet publish -f net451 -r win7-x64 -c Release }
+}
+
+Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge assemblies." {
+    Repack-Exe @("stdump", "net451\win7-x86") @("Microsoft.Diagnostics.Runtime")
+    Repack-Exe @("stdump", "net451\win7-x64") @("Microsoft.Diagnostics.Runtime")
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
     Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
     
-    Write-Host "Copying 'stdump-x64.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "x64") + "\stdump.exe") "$build_dir\stdump-x64.exe"
+    Write-Host "Copying 'stdump.exe'..." -ForegroundColor "Green"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"
 
     Write-Host "Copying LICENSE.md" -ForegroundColor "Green"
     Copy-Files "$base_dir\LICENSE" $build_dir
@@ -35,46 +39,39 @@ Task Pack -Depends Collect -Description "Create NuGet packages and archive files
     Create-Package "stdump" $version
 }
 
-function Run-MSBuild($platform) {
-    Write-Host "Compiling '$solution' using $platform platform..." -ForegroundColor "Green"
-
-    $extra = $null
-    if ($env:APPVEYOR) {
-        $extra = "/logger:C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-    }
-
-    Exec { msbuild $solution_path /p:Configuration=$config /p:Platform=$platform /nologo /verbosity:minimal $extra }
-}
-
-function Run-ILMerge($projectWithOptionalTarget, $internalizeAssemblies) {
+function Repack-Exe($projectWithOptionalTarget, $internalizeAssemblies, $target) {
     $project = $projectWithOptionalTarget
     $target = $null
+
+    $base_dir = resolve-path .
+    $ilrepack = "$base_dir\packages\ilrepack.*\tools\ilrepack.exe"
 
     if ($projectWithOptionalTarget -Is [System.Array]) {
         $project = $projectWithOptionalTarget[0]
         $target = $projectWithOptionalTarget[1]
     }
 
-    Write-Host "Merging '$project' ($target) with $internalizeAssemblies..." -ForegroundColor "Green"
+    Write-Host "Merging '$project'/$target with $internalizeAssemblies..." -ForegroundColor "Green"
 
     $internalizePaths = @()
+
     $projectOutput = Get-SrcOutputDir $project $target
 
     foreach ($assembly in $internalizeAssemblies) {
-        $internalizePaths += "$projectOutput\$assembly.dll"
+        $internalizePaths += "$assembly.dll"
     }
 
-    $primaryAssemblyPath = "$projectOutput\$project.exe"
+    $primaryAssemblyPath = "$project.exe"
+    $temp_dir = "$base_dir\temp"
 
     Create-Directory $temp_dir
-    
-    Exec { .$ilmerge /targetplatform:"v4,$framework_dir" `
-        /out:"$temp_dir\$project.exe" `
-        /target:exe `
-        /internalize `
-        $primaryAssemblyPath `
-        $internalizePaths `
-    }
+
+    Push-Location
+    Set-Location -Path $projectOutput
+
+    Exec { .$ilrepack /out:"$temp_dir\$project.exe" /internalize $primaryAssemblyPath $internalizePaths }
+
+    Pop-Location
 
     Move-Files "$temp_dir\$project.*" $projectOutput
 }

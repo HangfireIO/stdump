@@ -18,7 +18,7 @@
     </releaseNotes>
   </metadata>
   <files>
-    <file src="stdump-x64.exe" target="tools" />
+    <file src="stdump.exe" target="tools" />
     <file src="stdump-x86.exe" target="tools" />
   </files>
 </package>
