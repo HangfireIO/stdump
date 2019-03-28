@@ -1,13 +1,9 @@
 Framework 4.5.1
 Include "packages\Hangfire.Build.0.2.6\tools\psake-common.ps1"
 
-Properties {
-    $solution = "stdump.sln"
-}
-
 Task Default -Depends Pack
 
-Task CleanCore {
+Task CleanCore -Depends Clean {
     Exec { dotnet clean /v:minimal }
 }
 
@@ -22,8 +18,6 @@ Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge 
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
-    New-Item -ItemType Directory -Force -Path $build_dir
-
     Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
     Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
     
