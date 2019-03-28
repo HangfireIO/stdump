@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<package >
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>stdump</id>
     <version>0.0.0</version>
@@ -16,9 +16,13 @@
     
 0.0.1 – Initial Release
     </releaseNotes>
+    <packageTypes>
+      <packageType name="DotnetTool" />
+    </packageTypes>
   </metadata>
   <files>
     <file src="stdump.exe" target="tools" />
     <file src="stdump-x86.exe" target="tools" />
+    <file src="netcoreapp2.1\any\*" target="tools\netcoreapp2.1\any" />
   </files>
 </package>

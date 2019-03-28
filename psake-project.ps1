@@ -10,6 +10,7 @@ Task CleanCore -Depends Clean {
 Task CompileCore -Depends CleanCore, Restore -Description "Compile all the projects in a solution." {
     Exec { dotnet publish -f net451 -r win7-x86 -c Release }
     Exec { dotnet publish -f net451 -r win7-x64 -c Release }
+    Exec { dotnet publish -f netcoreapp2.1 -c Release }
 }
 
 Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge assemblies." {
@@ -18,11 +19,16 @@ Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge 
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
-    Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
-    
+    Write-Host "Copying 'stdump.dll'..." -ForegroundColor "Green"
+    Create-Directory "$build_dir\netcoreapp2.1\any"
+    Copy-Files ((Get-SrcOutputDir "stdump" "netcoreapp2.1\publish") + "\*") "$build_dir\netcoreapp2.1\any"
+    Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\netcoreapp2.1\any"
+
     Write-Host "Copying 'stdump.exe'..." -ForegroundColor "Green"
     Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"
+
+    Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
 
     Write-Host "Copying LICENSE.md" -ForegroundColor "Green"
     Copy-Files "$base_dir\LICENSE" $build_dir
