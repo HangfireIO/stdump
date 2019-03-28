@@ -22,6 +22,8 @@ Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge 
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
+    New-Item -ItemType Directory -Force -Path $build_dir
+
     Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
     Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
     
