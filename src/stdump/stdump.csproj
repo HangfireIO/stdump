@@ -8,7 +8,7 @@
     <AssemblyName>stdump</AssemblyName>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net451'">
+  <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
     <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
   </PropertyGroup>
   
