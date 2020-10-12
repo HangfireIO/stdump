@@ -35,8 +35,8 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
     Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
     Copy-Files ((Get-SrcOutputDir "stdump" "net471\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
 
-    Write-Host "Copying LICENSE.md" -ForegroundColor "Green"
-    Copy-Files "$base_dir\LICENSE" $build_dir
+    Write-Host "Copying LICENSE.txt" -ForegroundColor "Green"
+    Copy-Files "$base_dir\LICENSE.txt" $build_dir
 }
 
 Task Pack -Depends Collect -Description "Create NuGet packages and archive files." {
