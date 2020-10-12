@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Microsoft.Diagnostics.Runtime;
 
@@ -9,11 +10,11 @@ namespace STDump
 {
     public static class DumpHelper
     {
-        public static DataTarget LoadOrAttach(string target, AttachFlag attachFlag, uint msecTimeout)
+        public static DataTarget LoadOrAttach(string target, uint msecTimeout)
         {
             if (File.Exists(target))
             {
-                return DataTarget.LoadCrashDump(target);
+                return DataTarget.LoadDump(target);
             }
 
             Process process = null;
@@ -55,8 +56,7 @@ namespace STDump
             }
 
             //Console.WriteLine($"Using {process.MainModule.FileName}");
-
-            return DataTarget.AttachToProcess(process.Id, msecTimeout, attachFlag);
+            return DataTarget.AttachToProcess(process.Id, true);
         }
 
         public static void WriteDump(DataTarget target, TextWriter writer, CancellationToken cancellationToken)
@@ -127,7 +127,7 @@ namespace STDump
         {
             writer.WriteLine($"Thread #{thread.ManagedThreadId}");
             writer.WriteLine($"  OS Thread ID:      {thread.OSThreadId}");
-            writer.WriteLine($"  AppDomain Address: {thread.AppDomain}");
+            writer.WriteLine($"  AppDomain Address: {thread.CurrentAppDomain.Address}");
 
             var type = thread.IsBackground ? "Background" : "Foreground";
             writer.WriteLine($"  Type:              {type}");
@@ -137,7 +137,7 @@ namespace STDump
 
             var roles = new List<string>();
             if (thread.IsFinalizer) roles.Add("Finalizer");
-            if (thread.IsDebuggerHelper) roles.Add("Debugger Helper");
+            /*if (thread.IsDebuggerHelper) roles.Add("Debugger Helper");
             if (thread.IsGC) roles.Add("GC Thread");
             if (thread.IsShutdownHelper) roles.Add("Shutdown Helper");
 
@@ -145,7 +145,7 @@ namespace STDump
             if (thread.IsThreadpoolGate) roles.Add("Threadpool Gate");
             if (thread.IsThreadpoolTimer) roles.Add("Threadpool Timer");
             if (thread.IsThreadpoolWait) roles.Add("Threadpool Wait");
-            if (thread.IsThreadpoolWorker) roles.Add("Threadpool Worker");
+            if (thread.IsThreadpoolWorker) roles.Add("Threadpool Worker");*/
 
             if (roles.Count > 0)
                 writer.WriteLine($"  Role:              {String.Join(", ", roles)}");
@@ -162,14 +162,17 @@ namespace STDump
         private static void DumpStackTrace(ClrThread thread, TextWriter writer, CancellationToken cancellationToken)
         {
             // TODO: StackTrace property may be clipped, add a note
-            if (thread.StackTrace.Count > 0)
+            var stackTrace = thread.EnumerateStackTrace().ToArray();
+
+            if (stackTrace.Length > 0)
             {
                 writer.WriteLine("  Managed stack trace:");
 
-                foreach (var frame in thread.StackTrace)
+                foreach (var frame in stackTrace)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    writer.WriteLine($"   - {frame} at {frame.ModuleName}");
+                    //writer.WriteLine($"   - {frame} at {frame.ModuleName}");
+                    writer.WriteLine($"   - {frame} at ???");
                 }
             }
             else

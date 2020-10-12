@@ -26,5 +26,6 @@
     <file src="netcoreapp2.1\any\*" target="tools\netcoreapp2.1\any" />
     <file src="LICENSE.txt" />
     <file src="VERIFICATION.txt" />
+    <file src="netcoreapp3.1\any\*" target="tools\netcoreapp3.1\any" />
   </files>
 </package>

@@ -8,14 +8,15 @@ Task CleanCore -Depends Clean {
 }
 
 Task CompileCore -Depends CleanCore, Restore -Description "Compile all the projects in a solution." {
-    Exec { dotnet publish -f net451 -r win7-x86 -c Release }
-    Exec { dotnet publish -f net451 -r win7-x64 -c Release }
+    Exec { dotnet publish -f net471 -r win7-x86 -c Release }
+    Exec { dotnet publish -f net471 -r win7-x64 -c Release }
     Exec { dotnet publish -f netcoreapp2.1 -c Release }
+    Exec { dotnet publish -f netcoreapp3.1 -c Release }
 }
 
 Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge assemblies." {
-    Repack-Exe @("stdump", "net451\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils")
-    Repack-Exe @("stdump", "net451\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils")
+    Repack-Exe @("stdump", "net471\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils")
+    Repack-Exe @("stdump", "net471\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils")
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
@@ -24,11 +25,15 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
     Copy-Files ((Get-SrcOutputDir "stdump" "netcoreapp2.1\publish") + "\*") "$build_dir\netcoreapp2.1\any"
     Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\netcoreapp2.1\any"
 
+    Create-Directory "$build_dir\netcoreapp3.1\any"
+    Copy-Files ((Get-SrcOutputDir "stdump" "netcoreapp3.1\publish") + "\*") "$build_dir\netcoreapp3.1\any"
+    Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\netcoreapp3.1\any"
+
     Write-Host "Copying 'stdump.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net471\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"
 
     Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "net451\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net471\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
 
     Write-Host "Copying LICENSE.md" -ForegroundColor "Green"
     Copy-Files "$base_dir\LICENSE" $build_dir

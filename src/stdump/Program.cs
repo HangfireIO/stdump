@@ -12,7 +12,6 @@ namespace STDump
     public class Program
     {
         private const uint AttachProcessTimeout = 10 * 1000;
-        private const AttachFlag AttachProcessFlag = AttachFlag.Passive;
 
         private static readonly CancellationTokenSource Cts = new CancellationTokenSource();
 
@@ -29,7 +28,6 @@ namespace STDump
 
             var versions = GetShortAndLongVersion();
 
-            app.Option("-p|--pause", "Pause process", CommandOptionType.NoValue);
             app.Option("-o|--output", "Specify a file", CommandOptionType.SingleValue);
             app.HelpOption("-h|--help");
             app.VersionOption("-v|--version", versions.Item1, versions.Item2);
@@ -62,7 +60,7 @@ namespace STDump
 
                     using (var writer = new StringWriter())
                     {
-                        using (var target = DumpHelper.LoadOrAttach(argument, AttachProcessFlag, AttachProcessTimeout))
+                        using (var target = DumpHelper.LoadOrAttach(argument, AttachProcessTimeout))
                         {
                             DumpHelper.WriteDump(target, writer, Cts.Token);
                         }
