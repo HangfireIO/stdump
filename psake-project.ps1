@@ -37,6 +37,9 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
 
     Write-Host "Copying LICENSE.txt" -ForegroundColor "Green"
     Copy-Files "$base_dir\LICENSE.txt" $build_dir
+
+    Write-Host "Copying VERIFICATION.txt" -ForegroundColor "Green"
+    Copy-Files "$base_dir\VERIFICATION.txt" $build_dir
 }
 
 Task Pack -Depends Collect -Description "Create NuGet packages and archive files." {
