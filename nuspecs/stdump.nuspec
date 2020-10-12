@@ -8,7 +8,7 @@
     <owners>odinserj</owners>
     <projectUrl>https://github.com/odinserj/stdump</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/odinserj/stdump/blob/master/LICENSE</licenseUrl>
+    <licenseUrl>https://github.com/odinserj/stdump/blob/master/LICENSE.txt</licenseUrl>
     <description>Explore stack trace of a running managed process without downtime, or from a minidump file</description>
     <copyright>Copyright © 2016 Sergey Odinokov</copyright>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
@@ -24,5 +24,7 @@
     <file src="stdump.exe" target="tools" />
     <file src="stdump-x86.exe" target="tools" />
     <file src="netcoreapp2.1\any\*" target="tools\netcoreapp2.1\any" />
+    <file src="LICENSE.txt" />
+    <file src="VERIFICATION.txt" />
   </files>
 </package>
