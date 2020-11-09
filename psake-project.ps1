@@ -15,8 +15,8 @@ Task CompileCore -Depends CleanCore, Restore -Description "Compile all the proje
 }
 
 Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge assemblies." {
-    Repack-Exe @("stdump", "net471\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory")
-    Repack-Exe @("stdump", "net471\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory")
+    Repack-Exe @("stdump", "net471\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Reflection.Metadata", "System.Runtime.CompilerServices.Unsafe", "System.Buffers")
+    Repack-Exe @("stdump", "net471\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Reflection.Metadata", "System.Runtime.CompilerServices.Unsafe", "System.Buffers")
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
