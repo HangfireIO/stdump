@@ -164,7 +164,7 @@ namespace STDump
             // TODO: StackTrace property may be clipped, add a note
             var stackTrace = thread.EnumerateStackTrace().ToArray();
 
-            if (stackTrace.Length > 0)
+            if (stackTrace.Length > 1)
             {
                 writer.WriteLine("  Managed stack trace:");
 
