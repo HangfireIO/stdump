@@ -171,8 +171,11 @@ namespace STDump
                 foreach (var frame in stackTrace)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    //writer.WriteLine($"   - {frame} at {frame.ModuleName}");
-                    writer.WriteLine($"   - {frame} at ???");
+
+                    var moduleName = frame.Method?.Type.Module?.Name;
+                    if (moduleName != null) moduleName = Path.GetFileName(moduleName);
+
+                    writer.WriteLine($"   - {frame} at {moduleName}");
                 }
             }
             else
