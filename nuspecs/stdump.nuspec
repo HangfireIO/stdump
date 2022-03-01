@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://github.com/odinserj/stdump/blob/master/LICENSE.txt</licenseUrl>
     <description>Explore stack trace of a running managed process without downtime, or from a minidump file</description>
-    <copyright>Copyright © 2016 Sergey Odinokov</copyright>
+    <copyright>Copyright © 2016 Hangfire OÜ</copyright>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>http://hangfire.io/blog/
     

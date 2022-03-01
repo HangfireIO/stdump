@@ -3,8 +3,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyProduct("stdump")]
-[assembly: AssemblyCompany("Sergey Odinokov")]
-[assembly: AssemblyCopyright("Copyright © 2016 Sergey Odinokov")]
+[assembly: AssemblyCompany("Hangfire OÜ")]
+[assembly: AssemblyCopyright("Copyright © 2016 Hangfire OÜ")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]

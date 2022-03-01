@@ -31,7 +31,7 @@ stdump c:\debug\w3wp.dmp
 
 ```
 STDump v0.0.1 - Writes process managed stack traces
-Copyright (C) 2016 Sergey Odinokov
+Copyright (C) 2016 Hangfire OÜ
 Based on Microsoft.Diagnostics.Runtime (CLR MD). Copyright (C) Microsoft Corporation.
 
 Writes managed stack trace of a running process, or from a minidump file to console.
