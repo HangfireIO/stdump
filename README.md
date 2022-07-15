@@ -18,6 +18,10 @@ After installing, there will be two executables: `stdump-x86.exe` and `stdump-x6
 To display a stack trace of a running program, use its PID or process name.
 
 ```
+stdump 12832
+```
+
+```
 stdump w3wp.exe
 ```
 
