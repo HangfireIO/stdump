@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Diagnostics.Runtime;
 
@@ -67,19 +68,25 @@ namespace STDump
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                if (Environment.Is64BitProcess && clrVersion.DacInfo.TargetArchitecture == Architecture.X86)
+                writer.WriteLine($"Found CLR Version: {clrVersion.Version}");
+                var architecture = clrVersion.DebuggingLibraries.FirstOrDefault()?.TargetArchitecture;
+                writer.WriteLine($"Found Target Architecture: {architecture}");
+
+                if (architecture != null)
                 {
-                    Console.WriteLine("Use stdump-x86.exe");
-                    Environment.Exit(-2);
+                    if (Environment.Is64BitProcess && architecture.Value == Architecture.X86)
+                    {
+                        Console.WriteLine("Use stdump-x86.exe");
+                        Environment.Exit(-2);
+                    }
+
+                    if (!Environment.Is64BitProcess && architecture.Value == Architecture.X64)
+                    {
+                        Console.WriteLine("Use stdump.exe instead.");
+                        Environment.Exit(-2);
+                    }
                 }
 
-                if (!Environment.Is64BitProcess && clrVersion.DacInfo.TargetArchitecture == Architecture.Amd64)
-                {
-                    Console.WriteLine("Use stdump.exe instead.");
-                    Environment.Exit(-2);
-                }
-
-                writer.WriteLine($"Found CLR {clrVersion.Version}");
                 writer.WriteLine();
 
                 var runtime = clrVersion.CreateRuntime();
@@ -102,7 +109,8 @@ namespace STDump
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    if (!thread.IsAlive || thread.IsAborted || thread.IsUnstarted) continue;
+                    if (!thread.IsAlive || (thread.State & ClrThreadState.TS_Aborted) != 0 ||
+                        (thread.State & ClrThreadState.TS_Unstarted) != 0) continue;
 
                     DumpThreadInfo(thread, writer);
                     writer.WriteLine();
@@ -127,25 +135,12 @@ namespace STDump
         {
             writer.WriteLine($"Thread #{thread.ManagedThreadId}");
             writer.WriteLine($"  OS Thread ID:      {thread.OSThreadId}");
-            writer.WriteLine($"  AppDomain Address: {thread.CurrentAppDomain.Address}");
-
-            var type = thread.IsBackground ? "Background" : "Foreground";
-            writer.WriteLine($"  Type:              {type}");
-
-            if (thread.IsAbortRequested)
-                writer.WriteLine($"  IsAbortRequested:  {thread.IsAbortRequested}");
+            writer.WriteLine($"  AppDomain Address: {thread.CurrentAppDomain?.Address}");
+            writer.WriteLine($"  State:             {thread.State:G}");
 
             var roles = new List<string>();
             if (thread.IsFinalizer) roles.Add("Finalizer");
-            /*if (thread.IsDebuggerHelper) roles.Add("Debugger Helper");
-            if (thread.IsGC) roles.Add("GC Thread");
-            if (thread.IsShutdownHelper) roles.Add("Shutdown Helper");
-
-            if (thread.IsThreadpoolCompletionPort) roles.Add("Threadpool I/O Completion Port");
-            if (thread.IsThreadpoolGate) roles.Add("Threadpool Gate");
-            if (thread.IsThreadpoolTimer) roles.Add("Threadpool Timer");
-            if (thread.IsThreadpoolWait) roles.Add("Threadpool Wait");
-            if (thread.IsThreadpoolWorker) roles.Add("Threadpool Worker");*/
+            if (thread.IsGc) roles.Add("GC");
 
             if (roles.Count > 0)
                 writer.WriteLine($"  Role:              {String.Join(", ", roles)}");
