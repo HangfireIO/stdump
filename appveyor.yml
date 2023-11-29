@@ -48,15 +48,7 @@ artifacts:
 deploy:
   - provider: NuGet
     api_key: 
-      secure: QenVKh2uONpSXN+5PZSGldomlfPnXTk7wEX81lz4Jr3ahzC9Qz3EG8RWG7mGTgmc
-    skip_symbols: true
-    on:
-      appveyor_repo_tag: true
-
-  - provider: NuGet
-    server: https://chocolatey.org/
-    api_key:
-      secure: 7vOp8oFcGDo7UfI16EUQGYsgJq1mITIXkcl6ZTHj84+P2mD0/ab9jYlywvyltIlR
+      secure: xRV/m0aC8V9llXAoiaSrHKp1tpmvsUzwBLwPzyaR3SGWHCtLGhyHNwbeDvkubQmW
     skip_symbols: true
     on:
       appveyor_repo_tag: true
