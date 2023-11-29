@@ -91,6 +91,24 @@ namespace STDump
 
                 var runtime = clrVersion.CreateRuntime();
 
+                if (runtime.ThreadPool != null)
+                {
+                    writer.WriteLine("Following ThreadPool information found:");
+                    writer.WriteLine($"  CPU Utilization by ThreadPool: {runtime.ThreadPool.CpuUtilization}%");
+                    writer.WriteLine($"  Worker threads: Active {runtime.ThreadPool.ActiveWorkerThreads}, Idle {runtime.ThreadPool.IdleWorkerThreads}, Min {runtime.ThreadPool.MinThreads}, Max {runtime.ThreadPool.MaxThreads}");
+                    writer.WriteLine($"  Completion ports: Free {runtime.ThreadPool.FreeCompletionPorts}, Total {runtime.ThreadPool.TotalCompletionPorts}, Min {runtime.ThreadPool.MinCompletionPorts}, Max {runtime.ThreadPool.MaxCompletionPorts}");
+                    string type = null;
+                    if (runtime.ThreadPool.UsingPortableThreadPool) type = "Portable";
+                    if (runtime.ThreadPool.UsingWindowsThreadPool) type = "Windows";
+                    writer.WriteLine($"  Type: {type}");
+                }
+                else
+                {
+                    writer.WriteLine("No ThreadPool information found.");
+                }
+
+                writer.WriteLine();
+
                 writer.WriteLine("Following AppDomains found:");
                 writer.WriteLine();
 
