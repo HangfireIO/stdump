@@ -10,6 +10,6 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
 
-// Don't edit manually! Use `build.bat version` command instead!
-[assembly: AssemblyVersion("0.0.9")]
-[assembly: AssemblyInformationalVersion("0.0.9")]
+// Please don't edit manually, use the `build.bat version` command instead
+[assembly: AssemblyVersion("0.0.10")]
+[assembly: AssemblyInformationalVersion("0.0.10")]
