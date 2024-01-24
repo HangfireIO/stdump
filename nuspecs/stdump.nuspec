@@ -6,13 +6,12 @@
     <title>stdump</title>
     <authors>Sergey Odinokov</authors>
     <owners>odinserj</owners>
-    <projectUrl>https://github.com/odinserj/stdump</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/odinserj/stdump/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/HangfireIO/stdump</projectUrl>
+    <license type="expression">MIT</license>
     <description>Explore stack trace of a running managed process without downtime, or from a minidump file</description>
-    <copyright>Copyright © 2016-2023 Hangfire OÜ</copyright>
+    <copyright>Copyright © 2016-2024 Hangfire OÜ</copyright>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
-    <releaseNotes>https://hangfire.io/blog/
+    <releaseNotes>https://github.com/HangfireIO/stdump/releases
     
 0.0.1 – Initial Release
     </releaseNotes>
