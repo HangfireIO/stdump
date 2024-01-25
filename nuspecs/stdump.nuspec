@@ -12,8 +12,10 @@
     <copyright>Copyright © 2016-2024 Hangfire OÜ</copyright>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases
-    
-0.0.1 – Initial Release
+0.1.1
+* Fixed - "-o|--output" option now works as expected.
+* Fixed - Version detection logic now yields correct version.
+* Fixed - Error messages are now written to the `Console.Error` stream.
     </releaseNotes>
     <packageTypes>
       <packageType name="DotnetTool" />
