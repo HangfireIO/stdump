@@ -1,20 +1,15 @@
-Framework 4.5.1
-Include "packages\Hangfire.Build.0.2.6\tools\psake-common.ps1"
+Include "packages\Hangfire.Build.0.3.3\tools\psake-common.ps1"
 
 Task Default -Depends Pack
 
-Task CleanCore -Depends Clean {
-    Exec { dotnet clean /v:minimal }
-}
-
-Task CompileCore -Depends CleanCore, Restore -Description "Compile all the projects in a solution." {
+Task Publish -Depends Clean -Description "Compile all the projects in a solution." {
     Exec { dotnet publish -f net471 -r win7-x86 -c Release }
     Exec { dotnet publish -f net471 -r win7-x64 -c Release }
     Exec { dotnet publish -f netcoreapp3.1 -c Release }
     Exec { dotnet publish -f net5.0 -c Release }
 }
 
-Task Merge -Depends CompileCore -Description "Run ILMerge /internalize to merge assemblies." {
+Task Merge -Depends Publish -Description "Run ILMerge /internalize to merge assemblies." {
     Repack-Exe @("stdump", "net471\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers")
     Repack-Exe @("stdump", "net471\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers")
 }
