@@ -28,7 +28,7 @@ namespace STDump
 
             var versions = GetShortAndLongVersion();
 
-            app.Option("-o|--output", "Specify a file", CommandOptionType.SingleValue);
+            var outputOption = app.Option("-o|--output", "Specify a file", CommandOptionType.SingleValue);
             app.HelpOption("-h|--help");
             app.VersionOption("-v|--version", versions.Item1, versions.Item2);
 
@@ -44,13 +44,13 @@ namespace STDump
 
                 app.ShowRootCommandFullNameAndVersion();
                 
-                return DumpStackTraces(arg.Values);
+                return DumpStackTraces(arg.Values, outputOption.Value());
             });
 
             return app.Execute(args);
         }
 
-        private static int DumpStackTraces(IEnumerable<string> arguments)
+        private static int DumpStackTraces(IEnumerable<string> arguments, string outputFile)
         {
             try
             {
@@ -58,14 +58,17 @@ namespace STDump
                 {
                     Cts.Token.ThrowIfCancellationRequested();
 
-                    using (var writer = new StringWriter())
+                    using (var writer = !String.IsNullOrEmpty(outputFile) ? File.CreateText(outputFile) : Console.Out)
                     {
                         using (var target = DumpHelper.LoadOrAttach(argument, AttachProcessTimeout))
                         {
                             DumpHelper.WriteDump(target, writer, Cts.Token);
                         }
+                    }
 
-                        Console.Out.Write(writer);
+                    if (!String.IsNullOrEmpty(outputFile))
+                    {
+                        Console.WriteLine($"Dump information successfully written to the '{outputFile}' file.");
                     }
                 }
 
