@@ -99,15 +99,7 @@ namespace STDump
         {
             Func<TypeInfo, string> getVersionFromTypeInfo = typeInfo =>
             {
-                var infoVersion = typeInfo.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
-                    ?? typeInfo.Assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
-
-                if (string.IsNullOrEmpty(infoVersion))
-                {
-                    infoVersion = typeInfo.Assembly.GetName().Version.ToString();
-                }
-
-                return infoVersion;
+                return typeInfo.Assembly.GetName().Version.ToString(fieldCount: 3);
             };
 
             var programVersion = getVersionFromTypeInfo(typeof(Program).GetTypeInfo());
