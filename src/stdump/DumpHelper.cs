@@ -76,13 +76,13 @@ namespace STDump
                 {
                     if (Environment.Is64BitProcess && architecture.Value == Architecture.X86)
                     {
-                        Console.WriteLine("Use stdump-x86.exe");
+                        Console.Error.WriteLine("Please use stdump-x86.exe");
                         Environment.Exit(-2);
                     }
 
                     if (!Environment.Is64BitProcess && architecture.Value == Architecture.X64)
                     {
-                        Console.WriteLine("Use stdump.exe instead.");
+                        Console.Error.WriteLine("Please use stdump.exe instead.");
                         Environment.Exit(-2);
                     }
                 }
@@ -111,8 +111,8 @@ namespace STDump
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("An exception occurred while trying to get information from ThreadPool:");
-                    Console.WriteLine($"  {ex.Message}");
+                    writer.WriteLine("An exception occurred while trying to get information from ThreadPool:");
+                    writer.WriteLine($"  {ex.Message}");
                 }
 
                 writer.WriteLine();
