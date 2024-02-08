@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/HangfireIO/stdump</projectUrl>
     <repository type="git" url="https://github.com/HangfireIO/stdump.git" commit="%commit%" />
     <license type="expression">MIT</license>
-    <description>Explore stack trace of a running managed process without downtime, or from a minidump file</description>
+    <description>Explore stack trace of a running managed process or from a minidump file</description>
     <copyright>Copyright © 2016-2024 Hangfire OÜ</copyright>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases</releaseNotes>
