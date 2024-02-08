@@ -5,19 +5,14 @@
     <version>%version%</version>
     <title>stdump</title>
     <authors>Sergey Odinokov</authors>
-    <owners>odinserj</owners>
+    <owners>HangfireIO, odinserj</owners>
     <projectUrl>https://github.com/HangfireIO/stdump</projectUrl>
     <repository type="git" url="https://github.com/HangfireIO/stdump.git" commit="%commit%" />
     <license type="expression">MIT</license>
     <description>Explore stack trace of a running managed process without downtime, or from a minidump file</description>
     <copyright>Copyright © 2016-2024 Hangfire OÜ</copyright>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
-    <releaseNotes>https://github.com/HangfireIO/stdump/releases
-0.1.1
-* Fixed - "-o|--output" option now works as expected.
-* Fixed - Version detection logic now yields correct version.
-* Fixed - Error messages are now written to the `Console.Error` stream.
-    </releaseNotes>
+    <releaseNotes>https://github.com/HangfireIO/stdump/releases</releaseNotes>
     <packageTypes>
       <packageType name="DotnetTool" />
     </packageTypes>
