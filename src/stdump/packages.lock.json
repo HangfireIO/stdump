@@ -4,9 +4,9 @@
     ".NETCoreApp,Version=v3.1": {
       "Microsoft.Diagnostics.Runtime": {
         "type": "Direct",
-        "requested": "[3.1.456101, )",
-        "resolved": "3.1.456101",
-        "contentHash": "q9qVj69yeSTVmCsYB9DdIdh6zmYTQoE30wekkyAblijyQQau1P66qJ+KCZiC1mokBSRq2BXfz7PdRkZ+7cEbmQ==",
+        "requested": "[3.1.506101, )",
+        "resolved": "3.1.506101",
+        "contentHash": "wqgS8m2NILkb4ZO0se5HPLnU30kgpZQ9Y+YFdJpaLjwL4/7Ht5wUxxeCD2+3CB4uYDT1ijlsHBp2wlzdyjqrRQ==",
         "dependencies": {
           "Microsoft.Diagnostics.NETCore.Client": "0.2.410101",
           "System.Collections.Immutable": "6.0.0",
@@ -2750,9 +2750,9 @@
     ".NETFramework,Version=v4.7.1": {
       "Microsoft.Diagnostics.Runtime": {
         "type": "Direct",
-        "requested": "[3.1.456101, )",
-        "resolved": "3.1.456101",
-        "contentHash": "q9qVj69yeSTVmCsYB9DdIdh6zmYTQoE30wekkyAblijyQQau1P66qJ+KCZiC1mokBSRq2BXfz7PdRkZ+7cEbmQ==",
+        "requested": "[3.1.506101, )",
+        "resolved": "3.1.506101",
+        "contentHash": "wqgS8m2NILkb4ZO0se5HPLnU30kgpZQ9Y+YFdJpaLjwL4/7Ht5wUxxeCD2+3CB4uYDT1ijlsHBp2wlzdyjqrRQ==",
         "dependencies": {
           "Microsoft.Diagnostics.NETCore.Client": "0.2.410101",
           "System.Collections.Immutable": "6.0.0",
@@ -2907,9 +2907,9 @@
     "net6.0": {
       "Microsoft.Diagnostics.Runtime": {
         "type": "Direct",
-        "requested": "[3.1.456101, )",
-        "resolved": "3.1.456101",
-        "contentHash": "q9qVj69yeSTVmCsYB9DdIdh6zmYTQoE30wekkyAblijyQQau1P66qJ+KCZiC1mokBSRq2BXfz7PdRkZ+7cEbmQ==",
+        "requested": "[3.1.506101, )",
+        "resolved": "3.1.506101",
+        "contentHash": "wqgS8m2NILkb4ZO0se5HPLnU30kgpZQ9Y+YFdJpaLjwL4/7Ht5wUxxeCD2+3CB4uYDT1ijlsHBp2wlzdyjqrRQ==",
         "dependencies": {
           "Microsoft.Diagnostics.NETCore.Client": "0.2.410101",
           "System.Collections.Immutable": "6.0.0",
