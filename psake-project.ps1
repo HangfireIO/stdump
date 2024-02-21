@@ -33,6 +33,8 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
 
     Write-Host "Copying LICENSE.txt" -ForegroundColor "Green"
     Copy-Files "$base_dir\LICENSE.txt" $build_dir
+
+    Collect-File "README.md"
 }
 
 Task Pack -Depends Collect -Description "Create NuGet packages and archive files." {

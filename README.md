@@ -6,9 +6,9 @@ Explore stack trace of a running managed process or from a minidump file
 
 You can install `stdump` using one of the following ways:
 
-* **Manual**: Obtain an archive from the [latest release](https://github.com/odinserj/stdump/releases/latest).
+* **Manual**: Obtain an archive from the [latest release](https://github.com/HangfireIO/stdump/releases/latest).
 * **NuGet**: `Install-Package stdump`
-* **.NET Core**: `dotnet tool install -g stdump`
+* **.NET Tool**: `dotnet tool install -g stdump`
  
 After installing, there will be two executables: `stdump-x86.exe` and `stdump-x64.exe`.
 

@@ -11,6 +11,8 @@
     <license type="expression">MIT</license>
     <description>Explore stack trace of a running managed process or from a minidump file</description>
     <copyright>Copyright © 2016-2024 Hangfire OÜ</copyright>
+    <icon>icon.png</icon>
+    <readme>README.md</readme>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases</releaseNotes>
     <packageTypes>
@@ -22,6 +24,9 @@
     <file src="stdump-x86.exe" target="tools" />
     <file src="netcoreapp3.1\any\*" target="tools\netcoreapp3.1\any" />
     <file src="net6.0\any\*" target="tools\net6.0\any" />
+
+    <file src="..\nuspecs\icon.png" />
     <file src="LICENSE.txt" />
+    <file src="README.md" />
   </files>
 </package>
