@@ -14,7 +14,12 @@
     <icon>icon.png</icon>
     <readme>README.md</readme>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
-    <releaseNotes>https://github.com/HangfireIO/stdump/releases</releaseNotes>
+    <releaseNotes>https://github.com/HangfireIO/stdump/releases
+
+0.2.1
+• Added – Readme file and icon for the `stdump` NuGet package.
+• Changed – Bump Microsoft.Diagnostics.Runtime dependency version to 3.1.506101.
+    </releaseNotes>
     <packageTypes>
       <packageType name="DotnetTool" />
     </packageTypes>
