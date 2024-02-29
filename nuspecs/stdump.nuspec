@@ -28,6 +28,7 @@
     <file src="stdump.exe" target="tools" />
     <file src="stdump-x86.exe" target="tools" />
     <file src="netcoreapp3.1\any\*" target="tools\netcoreapp3.1\any" />
+    <file src="net5.0\any\*" target="tools\net5.0\any" />
     <file src="net6.0\any\*" target="tools\net6.0\any" />
 
     <file src="..\nuspecs\icon.png" />

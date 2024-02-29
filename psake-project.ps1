@@ -6,6 +6,7 @@ Task Publish -Depends Clean -Description "Compile all the projects in a solution
     Exec { dotnet publish -f net471 -r win7-x86 -c Release }
     Exec { dotnet publish -f net471 -r win7-x64 -c Release }
     Exec { dotnet publish -f netcoreapp3.1 -c Release }
+    Exec { dotnet publish -f net5.0 -c Release }
     Exec { dotnet publish -f net6.0 -c Release }
 }
 
@@ -20,6 +21,10 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
     Create-Directory "$build_dir\netcoreapp3.1\any"
     Copy-Files ((Get-SrcOutputDir "stdump" "netcoreapp3.1\publish") + "\*") "$build_dir\netcoreapp3.1\any"
     Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\netcoreapp3.1\any"
+
+    Create-Directory "$build_dir\net5.0\any"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net5.0\publish") + "\*") "$build_dir\net5.0\any"
+    Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\net5.0\any"
 
     Create-Directory "$build_dir\net6.0\any"
     Copy-Files ((Get-SrcOutputDir "stdump" "net6.0\publish") + "\*") "$build_dir\net6.0\any"
