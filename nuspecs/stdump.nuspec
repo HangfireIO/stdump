@@ -32,7 +32,6 @@
     <file src="netcoreapp3.1\any\*" target="tools\netcoreapp3.1\any" />
     <file src="net5.0\any\*" target="tools\net5.0\any" />
     <file src="net6.0\any\*" target="tools\net6.0\any" />
-    <file src="net8.0\any\*" target="tools\net8.0\any" />
 
     <file src="..\nuspecs\icon.png" />
     <file src="LICENSE.txt" />
