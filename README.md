@@ -12,6 +12,16 @@ You can install `stdump` using one of the following ways:
  
 After installing, there will be two executables: `stdump-x86.exe` and `stdump-x64.exe`.
 
+### Elevated Access on Linux and macOS
+
+```bash
+sudo dotnet tool install stdump --tool-path /usr/local/share/dotnet-tools
+```
+
+```bash
+sudo /usr/local/share/dotnet-tools/stdump
+```
+
 ## Usage
 
 To display a stack trace of a running program, use its PID or process name.
