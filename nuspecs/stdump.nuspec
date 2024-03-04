@@ -15,6 +15,10 @@
     <readme>README.md</readme>
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases
+
+0.4.0
+• Added – Built-in `net8.0` runtime support.
+
 0.3.0
 • Added – Make stdump compatible with the `net5.0` platform again.
 
