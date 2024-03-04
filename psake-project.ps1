@@ -8,6 +8,7 @@ Task Publish -Depends Clean -Description "Compile all the projects in a solution
     Exec { dotnet publish -f netcoreapp3.1 -c Release }
     Exec { dotnet publish -f net5.0 -c Release }
     Exec { dotnet publish -f net6.0 -c Release }
+    Exec { dotnet publish -f net8.0 -c Release }
 }
 
 Task Merge -Depends Publish -Description "Run ILMerge /internalize to merge assemblies." {
@@ -29,6 +30,10 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
     Create-Directory "$build_dir\net6.0\any"
     Copy-Files ((Get-SrcOutputDir "stdump" "net6.0\publish") + "\*") "$build_dir\net6.0\any"
     Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\net6.0\any"
+
+    Create-Directory "$build_dir\net8.0\any"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net8.0\publish") + "\*") "$build_dir\net8.0\any"
+    Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\net8.0\any"
 
     Write-Host "Copying 'stdump.exe'..." -ForegroundColor "Green"
     Copy-Files ((Get-SrcOutputDir "stdump" "net471\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"

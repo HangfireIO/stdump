@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net471;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net471;netcoreapp3.1;net5.0;net6.0;net8.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <DebugType>embedded</DebugType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RootNamespace>STDump</RootNamespace>
     <AssemblyName>stdump</AssemblyName>
+    <UseRidGraph>true</UseRidGraph>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net471'">
