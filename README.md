@@ -14,6 +14,8 @@ After installing, there will be two executables: `stdump-x86.exe` and `stdump-x6
 
 ### Elevated Access on Linux and macOS
 
+Elevated access is unnecessary when the target application operates under the same user account. But for other cases, it might be useful to run the utility under a privileged account.
+
 ```bash
 sudo dotnet tool install stdump --tool-path /usr/local/share/dotnet-tools
 ```
