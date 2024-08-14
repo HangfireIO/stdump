@@ -24,7 +24,7 @@ environment:
 #---------------------------------#
 
 before_build:
-  - ps: Install-Module -Name SignPath
+  - pwsh: Install-PSResource -Name SignPath -TrustRepository
 
 # to run your custom scripts instead of automatic MSBuild
 build_script: build.bat sign
