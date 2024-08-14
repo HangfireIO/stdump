@@ -10,9 +10,9 @@
       },
       "Hangfire.Build": {
         "type": "Direct",
-        "requested": "[0.4.0, 0.4.0]",
-        "resolved": "0.4.0",
-        "contentHash": "rU3NWGiurNYKKkLND8TAP4Dcfla+1NIUmkACqstAnIYgN19aGIeADme6Rx4g4cCU1tsMfEemuV8W2ItA8EMnkw=="
+        "requested": "[0.4.5, 0.4.5]",
+        "resolved": "0.4.5",
+        "contentHash": "hkOdAG0pLBpnXg8BfcNRTiw4cALmOREkY9q+gXeyNOYbMbu7o5aLHr3xCERCN8k85lobuUqLxahxrkURjq6GVg=="
       },
       "psake": {
         "type": "Direct",
