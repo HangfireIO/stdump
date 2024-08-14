@@ -69,18 +69,25 @@ namespace STDump
                 cancellationToken.ThrowIfCancellationRequested();
 
                 writer.WriteLine($"Found CLR Version: {clrVersion.Version}");
-                var architecture = clrVersion.DebuggingLibraries.FirstOrDefault()?.TargetArchitecture;
+                var architecture =
+#if !NET471
+                        clrVersion.DebuggingLibraries.FirstOrDefault()?.TargetArchitecture.ToString("G")
+#else
+                        clrVersion.DacInfo.TargetArchitecture.ToString("G")
+#endif
+                    ;
+
                 writer.WriteLine($"Found Target Architecture: {architecture}");
 
                 if (architecture != null)
                 {
-                    if (Environment.Is64BitProcess && architecture.Value == Architecture.X86)
+                    if (Environment.Is64BitProcess && architecture.Contains("86"))
                     {
                         Console.Error.WriteLine("Please use stdump-x86.exe");
                         Environment.Exit(-2);
                     }
 
-                    if (!Environment.Is64BitProcess && architecture.Value == Architecture.X64)
+                    if (!Environment.Is64BitProcess && architecture.Contains("64"))
                     {
                         Console.Error.WriteLine("Please use stdump.exe instead.");
                         Environment.Exit(-2);
@@ -91,6 +98,7 @@ namespace STDump
 
                 var runtime = clrVersion.CreateRuntime();
 
+#if !NET471
                 try
                 {
                     if (runtime.ThreadPool != null)
@@ -116,6 +124,7 @@ namespace STDump
                 }
 
                 writer.WriteLine();
+#endif
 
                 writer.WriteLine("Following AppDomains found:");
                 writer.WriteLine();
@@ -135,8 +144,12 @@ namespace STDump
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
+#if !NET471
                     if (!thread.IsAlive || (thread.State & ClrThreadState.TS_Aborted) != 0 ||
                         (thread.State & ClrThreadState.TS_Unstarted) != 0) continue;
+#else
+                    if (!thread.IsAlive || thread.IsAborted || thread.IsUnstarted) continue;
+#endif
 
                     DumpThreadInfo(thread, writer);
                     writer.WriteLine();
@@ -162,11 +175,20 @@ namespace STDump
             writer.WriteLine($"Thread #{thread.ManagedThreadId}");
             writer.WriteLine($"  OS Thread ID:      {thread.OSThreadId}");
             writer.WriteLine($"  AppDomain Address: {thread.CurrentAppDomain?.Address}");
+
+#if !NET471
             writer.WriteLine($"  State:             {thread.State:G}");
+#else
+            if (thread.IsAbortRequested)
+                writer.WriteLine($"  IsAbortRequested:  {thread.IsAbortRequested}");
+#endif
 
             var roles = new List<string>();
             if (thread.IsFinalizer) roles.Add("Finalizer");
+
+#if !NET471
             if (thread.IsGc) roles.Add("GC");
+#endif
 
             if (roles.Count > 0)
                 writer.WriteLine($"  Role:              {String.Join(", ", roles)}");
