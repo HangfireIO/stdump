@@ -4,9 +4,9 @@
     "Any,Version=v0.0": {
       "ILRepack": {
         "type": "Direct",
-        "requested": "[2.0.25, 2.0.25]",
-        "resolved": "2.0.25",
-        "contentHash": "7RM1El+8ljGEnha238E2SWpsUujq7bDhHtqXaUoU2sHq3xm4Gz14Wg5bIo2Y9s8XYoK5V/9vc1KavpgVjz6AkA=="
+        "requested": "[2.0.34, 2.0.34]",
+        "resolved": "2.0.34",
+        "contentHash": "g/MOGk+6qDFJxTpmZ8Avj59Yfz2kGb+spiqXxgP6kehVW7OoYsjr4CB7i+Ca625J4ruL99D3geS+tZjbjqnZLA=="
       },
       "Hangfire.Build": {
         "type": "Direct",
