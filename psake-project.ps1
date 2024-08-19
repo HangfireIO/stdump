@@ -12,8 +12,8 @@ Task Publish -Depends Clean -Description "Compile all the projects in a solution
 }
 
 Task Merge -Depends Publish -Description "Run ILMerge /internalize to merge assemblies." {
-    Repack-Exe @("stdump", "net461\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata")
-    Repack-Exe @("stdump", "net461\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata")
+    Repack-Exe @("stdump", "net461\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata", "System.Runtime.InteropServices.RuntimeInformation")
+    Repack-Exe @("stdump", "net461\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata", "System.Runtime.InteropServices.RuntimeInformation")
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
