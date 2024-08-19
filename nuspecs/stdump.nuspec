@@ -16,6 +16,10 @@
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases
 
+0.4.2
+• Changed – Downgrade .NET Framework requirement to 4.6.1 for `stdump.exe` and `stdump-x86.exe`.
+• Fixed – Could not find file or assembly 'System.Runtime.InteropServices.RuntimeInformation' error.
+
 0.4.1
 • Changed – Downgrade `Microsoft.Diagnostics.Runtime` for `net471` platform to version 2.0.226801.
 • Fixed – `TypeLoadException` when examining stacks with `stdump.exe` or `stdump-x86.exe` files.
