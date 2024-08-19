@@ -70,7 +70,7 @@ namespace STDump
 
                 writer.WriteLine($"Found CLR Version: {clrVersion.Version}");
                 var architecture =
-#if !NET471
+#if !NET461
                         clrVersion.DebuggingLibraries.FirstOrDefault()?.TargetArchitecture.ToString("G")
 #else
                         clrVersion.DacInfo.TargetArchitecture.ToString("G")
@@ -98,7 +98,7 @@ namespace STDump
 
                 var runtime = clrVersion.CreateRuntime();
 
-#if !NET471
+#if !NET461
                 try
                 {
                     if (runtime.ThreadPool != null)
@@ -144,7 +144,7 @@ namespace STDump
                 {
                     cancellationToken.ThrowIfCancellationRequested();
 
-#if !NET471
+#if !NET461
                     if (!thread.IsAlive || (thread.State & ClrThreadState.TS_Aborted) != 0 ||
                         (thread.State & ClrThreadState.TS_Unstarted) != 0) continue;
 #else
@@ -176,7 +176,7 @@ namespace STDump
             writer.WriteLine($"  OS Thread ID:      {thread.OSThreadId}");
             writer.WriteLine($"  AppDomain Address: {thread.CurrentAppDomain?.Address}");
 
-#if !NET471
+#if !NET461
             writer.WriteLine($"  State:             {thread.State:G}");
 #else
             if (thread.IsAbortRequested)
@@ -186,7 +186,7 @@ namespace STDump
             var roles = new List<string>();
             if (thread.IsFinalizer) roles.Add("Finalizer");
 
-#if !NET471
+#if !NET461
             if (thread.IsGc) roles.Add("GC");
 #endif
 

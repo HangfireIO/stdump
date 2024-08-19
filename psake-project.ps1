@@ -3,8 +3,8 @@ Include "packages\Hangfire.Build.0.4.5\tools\psake-common.ps1"
 Task Default -Depends Pack
 
 Task Publish -Depends Clean -Description "Compile all the projects in a solution." {
-    Exec { dotnet publish -f net471 -r win7-x86 -c Release }
-    Exec { dotnet publish -f net471 -r win7-x64 -c Release }
+    Exec { dotnet publish -f net461 -r win7-x86 -c Release }
+    Exec { dotnet publish -f net461 -r win7-x64 -c Release }
     Exec { dotnet publish -f netcoreapp3.1 -c Release }
     Exec { dotnet publish -f net5.0 -c Release }
     Exec { dotnet publish -f net6.0 -c Release }
@@ -12,8 +12,8 @@ Task Publish -Depends Clean -Description "Compile all the projects in a solution
 }
 
 Task Merge -Depends Publish -Description "Run ILMerge /internalize to merge assemblies." {
-    Repack-Exe @("stdump", "net471\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata")
-    Repack-Exe @("stdump", "net471\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata")
+    Repack-Exe @("stdump", "net461\win7-x86") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata")
+    Repack-Exe @("stdump", "net461\win7-x64") @("Microsoft.Diagnostics.Runtime", "Microsoft.Extensions.CommandLineUtils", "System.Collections.Immutable", "System.Memory", "System.Runtime.CompilerServices.Unsafe", "System.Buffers", "System.Reflection.Metadata")
 }
 
 Task Collect -Depends Merge -Description "Copy all artifacts to the build folder." {
@@ -36,10 +36,10 @@ Task Collect -Depends Merge -Description "Copy all artifacts to the build folder
     Copy-Files "$base_dir\DotnetToolSettings.xml" "$build_dir\net8.0\any"
 
     Write-Host "Copying 'stdump.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "net471\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net461\win7-x64") + "\stdump.exe") "$build_dir\stdump.exe"
 
     Write-Host "Copying 'stdump-x86.exe'..." -ForegroundColor "Green"
-    Copy-Files ((Get-SrcOutputDir "stdump" "net471\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
+    Copy-Files ((Get-SrcOutputDir "stdump" "net461\win7-x86") + "\stdump.exe") "$build_dir\stdump-x86.exe"
 
     Write-Host "Copying LICENSE.txt" -ForegroundColor "Green"
     Copy-Files "$base_dir\LICENSE.txt" $build_dir
