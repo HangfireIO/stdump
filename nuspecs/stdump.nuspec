@@ -16,6 +16,9 @@
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases
 
+0.4.4
+• Changed – Merge the 'System.ValueTuple' assembly into the executable files.
+
 0.4.3
 • Changed – Merge 'System.Runtime.InteropServices.RuntimeInformation' assembly into executable files.
 
