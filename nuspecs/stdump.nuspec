@@ -16,6 +16,9 @@
     <tags>diagnostics stacktrace minidump process clrmd</tags>
     <releaseNotes>https://github.com/HangfireIO/stdump/releases
 
+0.4.5
+• Fixed – Merge the 'System.Numerics.Vectors' assembly into the executable files to avoid errors.
+
 0.4.4
 • Changed – Merge the 'System.ValueTuple' assembly into the executable files.
 
