@@ -2,13 +2,13 @@ Include "packages\Hangfire.Build.0.5.0\tools\psake-common.ps1"
 
 Task Default -Depends Pack
 
-Task Publish -Depends Clean -Description "Compile all the projects in a solution." {
-    Exec { dotnet publish -f net461 -r win7-x86 -c Release }
-    Exec { dotnet publish -f net461 -r win7-x64 -c Release }
-    Exec { dotnet publish -f netcoreapp3.1 -c Release }
-    Exec { dotnet publish -f net5.0 -c Release }
-    Exec { dotnet publish -f net6.0 -c Release }
-    Exec { dotnet publish -f net8.0 -c Release }
+Task Publish -Depends Restore -Description "Compile all the projects in a solution." {
+    Exec { dotnet publish --no-restore -f net461 -r win7-x86 -c Release }
+    Exec { dotnet publish --no-restore -f net461 -r win7-x64 -c Release }
+    Exec { dotnet publish --no-restore -f netcoreapp3.1 -c Release }
+    Exec { dotnet publish --no-restore -f net5.0 -c Release }
+    Exec { dotnet publish --no-restore -f net6.0 -c Release }
+    Exec { dotnet publish --no-restore -f net8.0 -c Release }
 }
 
 Task Merge -Depends Publish -Description "Run ILMerge /internalize to merge assemblies." {
